@@ -7,7 +7,8 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/hpcloud/tail"
+	//"github.com/hpcloud/tail"
+	"github.com/nxadm/tail"
 	"github.com/joho/godotenv"
 )
 
@@ -49,7 +50,7 @@ func fillStringsSlice() {
 }
 
 func checkForRotate() {
-	t, err := tail.TailFile(checkFile, tail.Config{Follow: true})
+	t, err := tail.TailFile(checkFile, tail.Config{Follow: true, Poll: true})
 	for line := range t.Lines { //Annoying side-effect, it reads all the old ones when you first start it so we might need to flush this file regularly
 		//fmt.Println(line.Text)
 		if strings.TrimSpace(line.Text) == activationString {
